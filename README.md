@@ -7,7 +7,7 @@ Mukesh Billa
 Shreenand Pandere
 Vinayak Deore
 
-Team Name: [Team Name Here]
+Team Name: The CTRL Squad
 
 Description:
 
