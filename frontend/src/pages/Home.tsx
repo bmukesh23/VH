@@ -275,7 +275,7 @@ const Dashboard = () => {
                         </p>
                         <p className="text-sm text-green-500 font-semibold flex items-center gap-1">
                             <span className='h-4 w-4 mt-2'><FaArrowTrendUp /></span>
-                            out of 300 couriers
+                            out of 100+ couriers
                         </p>
                     </CardContent>
                 </Card>

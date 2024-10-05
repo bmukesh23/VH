@@ -1,84 +1,87 @@
-import { useState } from 'react';
-import { Award, Star } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-
-const leaderboardData = [
-  {
-    rank: 1,
-    name: 'John Doe',
-    deliveries: 120,
-    avgTime: '16:30',
-    rating: 5,
-  },
-  {
-    rank: 2,
-    name: 'Jane Smith',
-    deliveries: 110,
-    avgTime: '17:10',
-    rating: 4.9,
-  },
-  {
-    rank: 3,
-    name: 'Alex Johnson',
-    deliveries: 105,
-    avgTime: '18:00',
-    rating: 4.8,
-  },
-  // Add more couriers here
-];
-
-const LeaderBoard = () => {
-  const [leaderboard] = useState(leaderboardData);
-
+const Leaderboard = () => {
   return (
-    <div className="p-8">
-      <header className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-2xl font-bold">LeaderBoard</h1>
-          <p className="text-sm text-gray-500">Top performing couriers based on recent deliveries</p>
-        </div>
-        <Button>View Full LeaderBoard</Button>
-      </header>
-
-      <div className="grid grid-cols-1 gap-6">
-        {leaderboard.map((courier) => (
-          <Card key={courier.rank}>
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Award className="mr-2 text-yellow-500" />
-                  <span>Rank #{courier.rank}</span>
-                </div>
-                <span className="text-sm font-normal text-gray-500">{courier.deliveries} Deliveries</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="font-semibold">{courier.name}</p>
-                  <p className="text-sm text-gray-500">Courier Name</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold">{courier.avgTime}</p>
-                  <p className="text-sm text-gray-500">Avg. Delivery Time</p>
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold">{courier.rating.toFixed(1)} / 5</p>
-                  <div className="flex justify-center mt-1 text-yellow-500">
-                    {[...Array(Math.floor(courier.rating))].map((_, i) => (
-                      <Star key={i} className="inline-block" />
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500">Rating</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+    <>
+      <div className="text-center mt-4">
+        <h1 className="text-2xl font-bold">Leaderboard</h1>
+        <p>Top performing couriers based on recent deliveries</p>
       </div>
-    </div>
-  );
-};
 
-export default LeaderBoard;
+      <div className="flex items-center justify-around mt-10">
+        <div className="border-2 border-slate-500 rounded-md p-8 font-semibold text-center bg-gradient-to-r from-gray-300 via-silver to-gray-500 border-none text-white shadow-lg">
+          <h1>Rank #2</h1>
+          <p className="text-xl font-semibold">Viraj</p>
+          <div className="flex items-center justify-content gap-4 mt-1">
+            <p>NOD: 96</p>
+            <p>ADR: 4.5</p>
+          </div>
+        </div>
+
+        <div className="border-2 border-yellow-500 rounded-md p-8 font-semibold text-center bg-gradient-to-r from-yellow-400 via-gold to-yellow-600 border-none text-white shadow-lg">
+          <h1>Rank #1</h1>
+          <p className="text-xl font-semibold">Laxman</p>
+          <div className="flex items-center justify-content gap-4 mt-1">
+            <p>NOD: 98</p>
+            <p>ADR: 4.7</p>
+          </div>
+        </div>
+
+        <div className="border-2 border-red-950 rounded-md p-8 font-semibold text-center bg-gradient-to-r from-orange-700 via-bronze to-orange-900 border-none text-white shadow-lg">
+          <h1>Rank #3</h1>
+          <p className="text-xl font-semibold">Piyush</p>
+          <div className="flex items-center justify-content gap-4 mt-1">
+            <p>NOD: 89</p>
+            <p>ADR: 4.4</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 mt-12 overflow-y-auto">
+        <div className=" rounded-md p-4 font-semibold flex items-center justify-between shadow-lg border border-slate-200">
+          <div>
+            <h1>Rank #4</h1>
+            <p className="text-xl font-semibold">Shreenandh</p>
+          </div>
+
+          <div>
+            <p>NOD: 78</p>
+            <p>ADR: 4.1</p>
+          </div>
+        </div>
+        <div className="rounded-md p-4 font-semibold flex items-center justify-between shadow-lg border border-slate-200">
+          <div>
+            <h1>Rank #5</h1>
+            <p className="text-xl font-semibold">Vinayak</p>
+          </div>
+
+          <div>
+            <p>NOD: 74</p>
+            <p>ADR: 3.9</p>
+          </div>
+        </div>
+        <div className=" rounded-md p-4 font-semibold flex items-center justify-between shadow-lg border border-slate-200">
+          <div>
+            <h1>Rank #6</h1>
+            <p className="text-xl font-semibold">Karan</p>
+          </div>
+
+          <div>
+            <p>NOD: 70</p>
+            <p>ADR: 3.6</p>
+          </div>
+        </div>
+        <div className="rounded-md p-4 font-semibold flex items-center justify-between shadow-lg border border-slate-200">
+          <div>
+            <h1>Rank #7</h1>
+            <p className="text-xl font-semibold">You</p>
+          </div>
+
+          <div>
+            <p>NOD: 67</p>
+            <p>ADR: 3.3</p>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+export default Leaderboard

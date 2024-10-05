@@ -1,102 +1,114 @@
 import { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { MapPin, RefreshCw, PlusCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import 'leaflet/dist/leaflet.css';
-import { LatLngExpression } from 'leaflet';
+import Map, { NavigationControl, FullscreenControl, GeolocateControl } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
-const deliveryData = [
-  {
-    id: 1,
-    restaurant: 'Pizza Palace',
-    destination: '123 Main St',
-    lat: 19.0760,
-    lng: 72.8777,
-    status: 'Delivered',
-  },
-  {
-    id: 2,
-    restaurant: 'Sushi Express',
-    destination: '456 Elm St',
-    lat: 19.1012,
-    lng: 72.8950,
-    status: 'In Progress',
-  },
-];
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
+
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
 const CityMap = () => {
-  const [deliveries] = useState(deliveryData);
-  const center: LatLngExpression = [19.0760, 72.8777]; // Type for center using LatLngExpression
+  const [viewState, setViewState] = useState({
+    latitude: 19.383783,
+    longitude: 72.8286646,
+    zoom: 12
+  });
 
   return (
-    <div className="p-8">
-      <header className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-2xl font-bold">CityMap</h1>
-          <p className="text-sm text-gray-500">Monitor current deliveries and navigate the city</p>
+    <div className="flex w-full h-[590px]">
+      {/* Map Section */}
+      <div className="w-1/2 relative">
+        <div className="absolute top-4 left-4 z-10">
+          <h1 className="text-2xl font-bold">City Map</h1>
+          <p className="text-sm text-gray-500">Monitor your deliveries in real time.</p>
         </div>
-        <div className="flex space-x-4">
-          <Button>
-            <PlusCircle className="mr-2" /> Add Route
-          </Button>
-          <Button>
-            <RefreshCw className="mr-2" /> Refresh Map
-          </Button>
+        <div className="h-full mt-20">
+          <Map
+            {...viewState}
+            onMove={evt => setViewState(evt.viewState)}
+            mapStyle="mapbox://styles/mukeshh/cm1vlefgl015c01qv8yp60ho6"
+            mapboxAccessToken={MAPBOX_TOKEN}
+          >
+            <NavigationControl position="top-left" />
+            <FullscreenControl position="top-right" />
+            <GeolocateControl position="top-right" />
+          </Map>
         </div>
-      </header>
+      </div>
 
-      <div className="grid grid-cols-2 gap-6 mb-6">
-        {/* Map Section */}
-        <div className="col-span-2 lg:col-span-1 h-96">
-          <MapContainer center={center} zoom={13} className="h-full w-full">
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {deliveries.map((delivery) => (
-              <Marker key={delivery.id} position={[delivery.lat, delivery.lng]}>
-                <Popup>
-                  <div>
-                    <p className="font-semibold">{delivery.restaurant}</p>
-                    <p className="text-sm">Destination: {delivery.destination}</p>
-                    <p className="text-sm text-green-500">Status: {delivery.status}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+      {/* Deliveries List Section */}
+      <div className="w-1/2 p-4 overflow-y-auto">
+        <header className="mb-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Deliveries</h1>
+            <p className="text-sm text-gray-500">View the status of your current deliveries.</p>
+          </div>
+
+          <div className="flex space-x-4 mt-2">
+            <Button>
+              <PlusCircle className="mr-2" /> Add Route
+            </Button>
+          </div>
+        </header>
+
+        <div className='flex flex-col gap-6'>
+          <div className='flex items-center justify-between p-4 border border-yellow-500 rounded-md '>
+            <div>
+              <h1 className='text-2xl font-bold'>Handyman Tools Set</h1>
+              <div className="flex items-center gap-2 text-xs font-semibold">
+                <p>Pickup location: <span className='text-yellow-500'>Vasai</span></p>
+                <p>Destination location: <span className='text-yellow-500'>Nalasopara</span></p>
+              </div>
+            </div>
+
+            <div className='font-semibold'>
+              <p className='text-sm'>Status: <span className='text-yellow-500'>In Progress</span></p>
+            </div>
+          </div>
+          <div className='flex items-center justify-between p-4 border border-green-500 rounded-md '>
+            <div>
+              <h1 className='text-2xl font-bold'>Pet Supplies</h1>
+              <div className="flex items-center gap-2 text-xs font-semibold">
+                <p>Pickup location: <span className='text-green-500'>Bhiwandi</span></p>
+                <p>Destination location: <span className='text-green-500'>Kalyan</span></p>
+              </div>
+            </div>
+
+            <div className='font-semibold'>
+              <p className='text-sm'>Status: <span className='text-green-500'>Delivered</span></p>
+            </div>
+          </div>
+          <div className='flex items-center justify-between p-4 border border-green-500 rounded-md '>
+            <div>
+              <h1 className='text-2xl font-bold'>Grocery Essentials</h1>
+              <div className="flex items-center gap-2 text-xs font-semibold">
+                <p>Pickup location: <span className='text-green-500'>Anand Nagar</span></p>
+                <p>Destination location: <span className='text-green-500'>D.N. Nagar</span></p>
+              </div>
+            </div>
+
+            <div className='font-semibold'>
+              <p className='text-sm'>Status: <span className='text-green-500'>Delivered</span></p>
+            </div>
+          </div>
+          <div className='flex items-center justify-between p-4 border border-green-500 rounded-md '>
+            <div>
+              <h1 className='text-2xl font-bold'>Fresh Produce Box</h1>
+              <div className="flex items-center gap-2 text-xs font-semibold">
+                <p>Pickup location: <span className='text-green-500'>Bhayandar Gaon</span></p>
+                <p>Destination location: <span className='text-green-500'>Kalyan</span></p>
+              </div>
+            </div>
+
+            <div className='font-semibold'>
+              <p className='text-sm'>Status: <span className='text-green-500'>Delivered</span></p>
+            </div>
+          </div>
         </div>
 
-        {/* Deliveries List Section */}
-        <div className="col-span-2 lg:col-span-1 space-y-4">
-          {deliveries.map((delivery) => (
-            <Card key={delivery.id}>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <MapPin className="mr-2 text-blue-500" />
-                    <span>{delivery.restaurant}</span>
-                  </div>
-                  <span className="text-sm font-normal text-gray-500">Status: {delivery.status}</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p className="font-semibold">Destination</p>
-                    <p className="text-sm text-gray-500">{delivery.destination}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500">Coordinates</p>
-                    <p className="font-semibold">
-                      Lat: {delivery.lat.toFixed(4)}, Lng: {delivery.lng.toFixed(4)}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        <div className='flex items-center justify-center gap-4 mt-6'>
+          <button className='bg-blue-500 text-white font-semibold rounded-md px-4 py-2'>Proof of Delivery</button>
+          <button className='bg-green-500 text-white font-semibold rounded-md px-4 py-2'>Delivery Feedback</button>
         </div>
       </div>
     </div>

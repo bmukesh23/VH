@@ -125,7 +125,7 @@ const Settings = () => {
                     </CardContent>
                 </Card>
                 <div className="mt-8 flex justify-end">
-                    <Button onClick={handleSave} className='border border-slate-200 rounded-full shadow-lg'>Save Settings</Button>
+                    <Button onClick={handleSave} className='border border-slate-200 rounded-md bg-black text-white hover:bg-slate-800 shadow-lg'>Save Settings</Button>
                 </div>
             </div>
         </div>

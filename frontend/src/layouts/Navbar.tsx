@@ -16,9 +16,13 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/users');
+        console.log('API response:', response.data[1]); // Debugging line
+
         if (response.data && response.data.length > 0) {
-          const { displayName, photoURL, email } = response.data[0];
+          const { displayName, photoURL, email } = response.data[1];
           setUserProfile({ displayName, photoURL, email });
+        } else {
+          console.log('No user data found'); // Debugging line
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -27,7 +31,6 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
 
     fetchUserProfile();
   }, []);
-
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
@@ -40,7 +43,7 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
       <nav>
         <div>
           <div className="flex items-center gap-2 mb-10">
-            <img src={Logo} className='h-10 w-10 mt-[0.7px]'/>
+            <img src={Logo} className='h-10 w-10 mt-[0.7px]' />
             <h1 className='text-3xl font-semibold'>GoFood</h1>
           </div>
           <p className='text-sm mb-4 tracking-widest'>MENU</p>
@@ -104,7 +107,7 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
 
       {/* User Profile Section */}
       <div className="flex items-center mt-auto mb-4 border-t border-slate-300 pt-4">
-        {userProfile && (
+        {userProfile ? (
           <div className="flex items-center">
             <img
               src={userProfile.photoURL}
@@ -116,10 +119,11 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
               <p className='text-xs text-slate-300'>{userProfile.email}</p>
             </div>
           </div>
+        ) : (
+          <p className="text-sm text-slate-300">Loading user profile...</p>
         )}
       </div>
     </div>
-
   );
 };
 
