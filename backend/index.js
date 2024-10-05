@@ -22,6 +22,22 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+const employeeSchema = new mongoose.Schema({
+    name: String,
+    ADR: Number, // Average Delivery Rate (orders per hour)
+    R: Number, // Ratings (out of 5)
+    NOD: Number, // Number of Orders Delivered
+});
+
+const Employee = mongoose.model('Employers', employeeSchema);
+
+function calculateRank(ADR, R, NOD) {
+    const W1 = 0.5;
+    const W2 = 0.3;
+    const W3 = 0.2;
+    return (W1 * ADR) + (W2 * (R / 5)) + (W3 * Math.log(NOD + 1));
+}
+
 //hello
 app.get("/", (req, res) => {
     res.json({ data: "hello" });
@@ -122,6 +138,45 @@ app.put('/api/users/:uid', async (req, res) => {
     }
 });
 
+// GET all employees with rank calculation
+app.get('/api/employees', async (req, res) => {
+    try {
+        const employees = await Employee.find();
+
+        const employeesWithRank = employees.map(employee => ({
+            name: employee.name,
+            ADR: employee.ADR,
+            R: employee.R,
+            NOD: employee.NOD,
+            rank: calculateRank(employee.ADR, employee.R, employee.NOD)
+        }));
+
+        res.status(200).json(employeesWithRank);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching employees data' });
+    }
+});
+
+// POST request to add sample employee data
+app.post('/api/employees', async (req, res) => {
+    try {
+        const { name, ADR, R, NOD } = req.body;
+
+        // Create a new employee
+        const newEmployee = new Employee({
+            name,
+            ADR,
+            R,
+            NOD
+        });
+
+        await newEmployee.save();
+        res.status(201).json({ message: 'Employee created successfully', employee: newEmployee });
+    } catch (error) {
+        console.error('Error adding employee:', error);
+        res.status(400).json({ error: 'Error adding employee' });
+    }
+});
 
 const PORT = 5000;
 app.listen(PORT, () => {

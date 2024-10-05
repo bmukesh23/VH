@@ -14,6 +14,7 @@ import {
     Legend,
 } from 'chart.js';
 import { FaArrowTrendUp } from "react-icons/fa6";
+import axios from 'axios';
 
 
 ChartJS.register(
@@ -184,9 +185,31 @@ const CircularGauge: React.FC<CircularGaugeProps> = ({ percentage }) => {
     );
 };
 
+interface Employee {
+    rank: number,
+    ADR: number,
+    R: number
+
+}
+
 const Dashboard = () => {
     const [currentSimulation, setCurrentSimulation] = useState<Simulation | null>(null);
     const [completionPercentage, setCompletionPercentage] = useState<number>(0);
+    const [employee, setEmployee] = useState<Employee | null>(null);
+
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/employees');
+                setEmployee(response.data[0]);
+                // console.log(response.data[0]);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchEmployees();
+    }, [])
 
     const startSimulation = () => {
         setCurrentSimulation({
@@ -245,10 +268,14 @@ const Dashboard = () => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold"><span className="text-base align-super">#</span>42</p>
+                        <p className="text-3xl font-bold">
+                            <span className="text-base align-super">#</span>
+                            {/* {Math.floor(employee.rank)} */}
+                            {employee ? Math.floor(employee.rank) : "N/A"} 
+                        </p>
                         <p className="text-sm text-green-500 font-semibold flex items-center gap-1">
                             <span className='h-4 w-4 mt-2'><FaArrowTrendUp /></span>
-                            out of 500 couriers
+                            out of 300 couriers
                         </p>
                     </CardContent>
                 </Card>
@@ -259,7 +286,7 @@ const Dashboard = () => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">18 min 30 sec</p>
+                        <p className="text-3xl font-bold">{employee ? `${employee.ADR} min` : "N/A"}</p>
                         <p className="text-sm text-green-500 font-semibold flex gap-1 mt-1">
                             <span className='h-4 w-4 mt-1'><FaArrowTrendUp /></span>
                             2min 30 sec faster than average
@@ -273,7 +300,7 @@ const Dashboard = () => {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">4.8 / 5</p>
+                        <p className="text-3xl font-bold">{employee ? `${employee.R} / 5` : "N/A"}</p>
                         <p className="text-sm text-green-500 font-semibold flex gap-1 mt-1">
                             <span className='h-4 w-4 mt-1'><FaArrowTrendUp /></span>
                             +4% from last month
