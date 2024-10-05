@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Trophy, Calendar, Gift } from 'lucide-react';
 import { MdArrowOutward } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 
 // Define types for the missions
 interface Mission {
@@ -16,6 +17,7 @@ interface Mission {
 }
 
 const RewardsSystem: React.FC = () => {
+    const navigate = useNavigate();
     const [dailyMissions, setDailyMissions] = useState<Mission[]>([
         { id: 1, title: 'Complete 10 deliveries', progress: 7, target: 10, reward: 50 },
         { id: 2, title: 'Maintain 4.5 star rating', progress: 4.7, target: 4.5, reward: 30 },
@@ -42,6 +44,10 @@ const RewardsSystem: React.FC = () => {
         setTotalPoints(dailyPoints + weeklyPoints);
     }, [dailyMissions, weeklyMissions]);
 
+    const handleReward = () => {
+        window.alert("Sorry, you are not eligible to claim reward😔");
+    };
+
     // Add types to MissionCard
     const MissionCard: React.FC<{ title: string; missions: Mission[] }> = ({ title, missions }) => (
         <Card className="flex-1 mx-2"> {/* Make card take equal space and add margin */}
@@ -59,8 +65,8 @@ const RewardsSystem: React.FC = () => {
                             <Badge
                                 variant={mission.progress >= mission.target ? "secondary" : "default"}
                                 className={`${mission.progress >= mission.target
-                                        ? 'bg-white text-black'
-                                        : 'bg-black text-white'
+                                    ? 'bg-white text-black'
+                                    : 'bg-black text-white'
                                     }`}
                             >
                                 {mission.progress >= mission.target ? 'Completed' : 'In Progress'}
@@ -97,7 +103,10 @@ const RewardsSystem: React.FC = () => {
             <div className='border-2 border-lime-500 bg-orange-100 p-4 rounded-xl mt-6 text-center'>
                 <p className='font-bold'>Claim a Minimum ₹6000 OFF on your favorite food orders! 🎉</p>
                 <p className='text-sm'>Indulge in the tastiest meals and snacks from our top-rated restaurants. Use this referral code to get your discount</p>
-                <button className='bg-slate-400 rounded-lg text-sm px-3 py-1 text-white font-semibold flex items-center mx-auto mt-2'>
+                <button
+                    className='bg-slate-400 rounded-lg text-sm px-3 py-1 text-white font-semibold flex items-center mx-auto mt-2'
+                    onClick={handleReward}
+                >
                     Click to redeem now
                     <MdArrowOutward className='ml-1' />
                 </button>

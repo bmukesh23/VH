@@ -45,7 +45,11 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
         <div>
           <div className="flex items-center gap-2 mb-10">
             <img src={Logo} className='h-10 w-10 mt-[0.7px]' />
-            <h1 className='text-3xl font-semibold'>GoFood</h1>
+            <h1 className='text-3xl font-semibold'>
+              <NavLink to="/">
+                GoFood
+              </NavLink>
+            </h1>
           </div>
           <p className='text-sm mb-4 tracking-widest'>MENU</p>
           <ul className="space-y-2">

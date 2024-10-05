@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Clock, Award, User, MapPin } from 'lucide-react';
+import { Clock, Award, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -214,8 +214,8 @@ const Dashboard = () => {
     const startSimulation = () => {
         setCurrentSimulation({
             orderId: Math.floor(Math.random() * 1000),
-            restaurant: "Pizza Palace",
-            destination: "123 Main St",
+            restaurant: "Zorko, Vasai",
+            destination: "K. T. Marg, Vasai",
             estimatedTime: 20,
             trafficLevel: "Medium"
         });
@@ -270,8 +270,7 @@ const Dashboard = () => {
                     <CardContent>
                         <p className="text-3xl font-bold">
                             <span className="text-base align-super">#</span>
-                            {/* {Math.floor(employee.rank)} */}
-                            {employee ? Math.floor(employee.rank) : "N/A"} 
+                            {employee ? Math.floor(employee.rank) : "N/A"}
                         </p>
                         <p className="text-sm text-green-500 font-semibold flex items-center gap-1">
                             <span className='h-4 w-4 mt-2'><FaArrowTrendUp /></span>
@@ -320,22 +319,25 @@ const Dashboard = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="flex justify-between items-center">
-                            <div>
-                                <p className="font-semibold">{currentSimulation.restaurant}</p>
-                                <p className="text-sm text-gray-500">Pick-up Location</p>
+                            <div className="flex flex-col items-left gap-4 font-semibold">
+                                <p className="text-sm text-gray-500">
+                                    Pick-up Location:
+                                    <span className="font-bold text-green-500"> {`${currentSimulation.restaurant}`}</span>
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    Delivery Location:
+                                    <span className="font-bold text-green-500"> {`${currentSimulation.destination}`}</span>
+                                </p>
                             </div>
-                            <MapPin className="text-red-500" />
-                            <div>
-                                <p className="font-semibold">{currentSimulation.destination}</p>
-                                <p className="text-sm text-gray-500">Delivery Location</p>
-                            </div>
-                            <div>
-                                <p className="font-semibold">{currentSimulation.estimatedTime} mins</p>
-                                <p className="text-sm text-gray-500">Estimated Time</p>
-                            </div>
-                            <div>
-                                <p className="font-semibold">{currentSimulation.trafficLevel}</p>
-                                <p className="text-sm text-gray-500">Traffic Level</p>
+                            <div className="flex flex-col items-left gap-4 font-semibold">
+                                <p className="text-sm text-gray-500">
+                                    Estimated Time:
+                                    <span className="font-bold text-blue-500"> {` ${currentSimulation.estimatedTime} min`}</span>
+                                </p>
+                                <p className="text-sm text-gray-500">
+                                    Traffic Level:
+                                    <span className='font-bold text-yellow-500'> {currentSimulation.trafficLevel}</span>
+                                </p>
                             </div>
                             <CircularGauge percentage={completionPercentage} />
                         </div>
