@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { BarChart2, Map, Truck, Award, Settings, LogOut } from 'lucide-react';
 import axios from 'axios';
 import Logo from "/logo.svg";
+import { IoTrophyOutline } from "react-icons/io5";
 
 interface SidebarNavProps {
   userName: string;
@@ -78,6 +79,14 @@ const SidebarNav: React.FC<SidebarNavProps> = () => {
                 className={({ isActive }) => isActive ? "flex items-center space-x-2 p-2 rounded bg-green-800" : "flex items-center space-x-2 p-2 rounded hover:bg-green-800"}>
                 <Award size={20} />
                 <span>Leaderboard</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/rewards"
+                className={({ isActive }) => isActive ? "flex items-center space-x-2 p-2 rounded bg-green-800" : "flex items-center space-x-2 p-2 rounded hover:bg-green-800"}>
+                <IoTrophyOutline size={20} />
+                <span>GoQuest</span>
               </NavLink>
             </li>
           </ul>

@@ -7,6 +7,7 @@ import LeaderBoard from './pages/Leaderboard';
 import CityMap from './pages/CityMap';
 import Settings from './pages/Settings';
 import SidebarNav from './layouts/Navbar'; 
+import Rewards from './pages/Rewards';
 
 function App() {
   const userName = "Mukesh"; 
@@ -26,6 +27,7 @@ function App() {
           <Route path='/leaderboard' element={<LeaderBoard />} />
           <Route path='/city-map' element={<CityMap />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/rewards' element={<Rewards/>}/>
         </Routes>
       </main>
     </div>
